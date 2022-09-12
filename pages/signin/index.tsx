@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { login } from "store/slices/app";
+import { login, selectIsLoggedIn, signOut } from "store/slices/app";
 import classes from "./signin.module.css";
 import Input from "components/Input";
-import { useAppDispatch } from "store/hooks";
+import { useAppDispatch, useAppSelector } from "store/hooks";
 
-export default function SignIn() {
+function LoggedOut() {
   const dispatch = useAppDispatch();
 
   const [username, setUsername] = useState("");
@@ -16,20 +16,37 @@ export default function SignIn() {
   }
 
   return (
+    <form>
+      <label>
+        Username
+        <Input type={"text"} value={username} setValue={setUsername} />
+      </label>
+      <label>
+        Password
+        <Input type={"password"} value={password} setValue={setPassword} />
+      </label>
+      <button type={"submit"} onClick={(e) => onSubmit(e)}>
+        Sign In
+      </button>
+    </form>
+  );
+}
+
+function LoggedIn() {
+  const dispatch = useAppDispatch();
+
+  function onClick() {
+    dispatch(signOut());
+  }
+
+  return <button onClick={onClick}>Sign out</button>;
+}
+
+export default function SignIn() {
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  return (
     <div className={classes.signIn}>
-      <form>
-        <label>
-          Username
-          <Input type={"text"} value={username} setValue={setUsername} />
-        </label>
-        <label>
-          Password
-          <Input type={"password"} value={password} setValue={setPassword} />
-        </label>
-        <button type={"submit"} onClick={(e) => onSubmit(e)}>
-          Sign In
-        </button>
-      </form>
+      {isLoggedIn ? <LoggedIn /> : <LoggedOut />}
     </div>
   );
 }

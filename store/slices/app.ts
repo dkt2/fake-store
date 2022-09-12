@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { RootState } from "store";
 import { AsyncStatus } from "./types";
 
 /**
@@ -27,6 +28,9 @@ export const login = createAsyncThunk(
   }
 );
 
+export const selectIsLoggedIn = (state: RootState) =>
+  state.app.login.token !== "";
+
 export const appSlice = createSlice({
   name: "app",
   initialState: {
@@ -39,6 +43,9 @@ export const appSlice = createSlice({
   reducers: {
     setCategories: (state, action) => {
       state.categories = action.payload;
+    },
+    signOut: (state) => {
+      state.login.token = "";
     },
   },
   /**
@@ -60,7 +67,7 @@ export const appSlice = createSlice({
   },
 });
 
-export const { setCategories } = appSlice.actions;
+export const { setCategories, signOut } = appSlice.actions;
 
 export const getAndSetCategories = () => (dispatch) => {
   fetch("https://fakestoreapi.com/products/categories")
