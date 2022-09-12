@@ -5,6 +5,8 @@ import { AsyncStatus } from "./types";
  * I deceded to use `createAsyncThunk`
  * to have a more Redux lib conventional way
  * of handling loading and error states
+ *
+ * When I was developing, the login API returned 524
  */
 export const login = createAsyncThunk(
   "app/login",
