@@ -2,14 +2,17 @@ import { useState } from "react";
 import { login } from "store/slices/app";
 import classes from "./signin.module.css";
 import Input from "components/Input";
+import { useAppDispatch } from "store/hooks";
 
 export default function SignIn() {
+  const dispatch = useAppDispatch();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   function onSubmit(e) {
     e.preventDefault();
-    login("username", "password");
+    dispatch(login({ username, password }));
   }
 
   return (
