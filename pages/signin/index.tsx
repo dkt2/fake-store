@@ -1,25 +1,32 @@
-import { login } from 'store/slices/app';
-import classes from './signin.module.css'
+import { useState } from "react";
+import { login } from "store/slices/app";
+import classes from "./signin.module.css";
+import Input from "components/Input";
 
 export default function SignIn() {
-    function onSubmit(e) {
-        e.preventDefault();
-        // login('username', 'password')
-    }
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-    return (
-        <div className={classes.signIn}>
-            <form>
-                <label>Username
-                    <input type={'text'}/>
-                </label>
-                <label>Password
-                    <input type={'password'}/>
-                </label>
-                <button type={'submit'} onClick={(e) => onSubmit(e)}>
-                    Sign In
-                </button>
-            </form>
-        </div>
-    )
+  function onSubmit(e) {
+    e.preventDefault();
+    login("username", "password");
+  }
+
+  return (
+    <div className={classes.signIn}>
+      <form>
+        <label>
+          Username
+          <Input type={"text"} value={username} setValue={setUsername} />
+        </label>
+        <label>
+          Password
+          <Input type={"password"} value={password} setValue={setPassword} />
+        </label>
+        <button type={"submit"} onClick={(e) => onSubmit(e)}>
+          Sign In
+        </button>
+      </form>
+    </div>
+  );
 }
