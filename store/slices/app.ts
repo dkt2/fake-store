@@ -5,15 +5,17 @@ import { AsyncStatus } from "./types";
  * I deceded to use `createAsyncThunk`
  * to have a more Redux lib conventional way
  * of handling loading and error states
- *
- * When I was developing, the login API returned 524
  */
 export const login = createAsyncThunk(
   "app/login",
   async (payload: { username: string; password: string }) => {
     const { username, password } = payload;
+
     const response = await fetch("https://fakestoreapi.com/auth/login", {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         username: username,
         password: password,
@@ -49,8 +51,8 @@ export const appSlice = createSlice({
         state.login.status = AsyncStatus.LOADING;
       })
       .addCase(login.fulfilled, (state, action) => {
-        state.login.token = action.payload;
         state.login.status = AsyncStatus.IDLE;
+        state.login.token = action.payload.token;
       })
       .addCase(login.rejected, (state) => {
         state.login.status = AsyncStatus.FAILED;
