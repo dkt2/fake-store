@@ -41,15 +41,10 @@ function LoggedOut() {
 function LoggedIn() {
   const dispatch = useAppDispatch();
 
-  function onClick() {
-    dispatch(signOut());
-  }
-
-  return <button onClick={onClick}>Sign out</button>;
+  return <button onClick={() => dispatch(signOut())}>Sign out</button>;
 }
 
 export default function SignIn() {
-  const dispatch = useAppDispatch();
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
   return (
