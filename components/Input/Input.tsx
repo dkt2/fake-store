@@ -14,10 +14,11 @@ interface Props {
   type?: InputType;
 }
 
-function Input({ value, setValue, type }: Props) {
+function Input(props: Props) {
+  const { value, setValue, type } = props;
   return (
     <input
-      type={type}
+      type={type || InputType.TEXT}
       value={value}
       onChange={(e) => setValue(e.target.value)}
     />
