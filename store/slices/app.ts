@@ -9,9 +9,9 @@ export const getAndSetCategories = () => (dispatch) => {
 };
 
 /**
- * I deceded to use `createAsyncThunk`
- *  to have a more Redux lib conventional way
- *  of handling loading and error states
+ * `createAsyncThunk` wraps Async work with states that
+ *  can be selected on to show UI tracking the progress of the Async work.
+ * Reference `extraReducer` below for more info.
  */
 export const login = createAsyncThunk(
   "app/login",
@@ -29,7 +29,7 @@ export const login = createAsyncThunk(
       }),
     }).then((response) => response.json());
 
-    // This value becomes `fulfilled` action payload
+    // This value becomes the `fulfilled` action payload
     return [username, response.token];
   }
 );
@@ -53,8 +53,9 @@ export const appSlice = createSlice({
     },
   },
   /**
-   * These are the states that `createAsyncThunk` returns
-   * and how they will be handled
+   * These extra reducers are for displaying UI to track API progress.
+   * You can get the status of a `fetch`
+   *  by making a selector on `state.app.login.status`.
    */
   extraReducers(builder) {
     builder
