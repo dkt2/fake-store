@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { login, selectIsLoggedIn, signOut } from "store/slices/app";
 import classes from "./signin.module.css";
 import { useAppDispatch, useAppSelector } from "store/hooks";
