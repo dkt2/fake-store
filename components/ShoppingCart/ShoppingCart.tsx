@@ -41,6 +41,7 @@ function ShoppingCartControls(props: Props) {
 function StoreControls(props: Props) {
   const { product } = props;
   const dispatch = useAppDispatch();
+
   return (
     <button onClick={() => dispatch(upsertProduct({ product }))}>
       Add to cart
