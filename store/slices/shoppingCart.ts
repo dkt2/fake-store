@@ -61,18 +61,6 @@ type User = {
   // phone
 };
 
-export interface ShoppingCartState {
-  status: AsyncStatus;
-  carts: Cart[];
-  currentCartID: number;
-}
-
-const initialState: ShoppingCartState = {
-  status: AsyncStatus.IDLE,
-  carts: null,
-  currentCartID: null,
-};
-
 async function getProduct(
   product: ProductFromCart
 ): Promise<ProductFromAPI & { quantity: number }> {
@@ -138,6 +126,18 @@ export const getCurrentUserShoppingCarts = createAsyncThunk(
 
 const getCurrentCart = (state: ShoppingCartState) =>
   state.carts.find((cart) => cart.id === state.currentCartID);
+
+interface ShoppingCartState {
+  status: AsyncStatus;
+  carts: Cart[];
+  currentCartID: number;
+}
+
+const initialState: ShoppingCartState = {
+  status: AsyncStatus.IDLE,
+  carts: null,
+  currentCartID: null,
+};
 
 export const shoppingCartSlice = createSlice({
   name: "shoppingCart",
