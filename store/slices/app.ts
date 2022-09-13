@@ -2,6 +2,12 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "store";
 import { AsyncStatus } from "./types";
 
+export const getAndSetCategories = () => (dispatch) => {
+  fetch("https://fakestoreapi.com/products/categories")
+    .then((res) => res.json())
+    .then((data) => dispatch(setCategories(data)));
+};
+
 /**
  * I deceded to use `createAsyncThunk`
  *  to have a more Redux lib conventional way
@@ -27,11 +33,6 @@ export const login = createAsyncThunk(
     return [username, response.token];
   }
 );
-
-export const selectIsLoggedIn = (state: RootState) =>
-  state.app.login.token !== "";
-
-export const selectUsername = (state: RootState) => state.app.login.username;
 
 export const appSlice = createSlice({
   name: "app",
@@ -74,12 +75,9 @@ export const appSlice = createSlice({
 
 export const { setCategories, signOut } = appSlice.actions;
 
-export const getAndSetCategories = () => (dispatch) => {
-  fetch("https://fakestoreapi.com/products/categories")
-    .then((res) => res.json())
-    .then((data) => dispatch(setCategories(data)));
-};
-
 export const selectCategories = (state) => state.app.categories;
+
+export const selectIsLoggedIn = (state: RootState) =>
+  state.app.login.token !== "";
 
 export default appSlice.reducer;
