@@ -1,9 +1,17 @@
 import { Dispatch, SetStateAction } from "react";
 
+export enum InputType {
+  TEXT = "text",
+  PASSWORD = "password",
+  NUMBER = "number",
+}
+
+type ValueType = string | number;
+
 interface Props {
-  value: string;
-  setValue: Dispatch<SetStateAction<string>>;
-  type?: string;
+  value: ValueType;
+  setValue: Dispatch<SetStateAction<ValueType>>;
+  type?: InputType;
 }
 
 function Input({ value, setValue, type }: Props) {
