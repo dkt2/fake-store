@@ -2,10 +2,23 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "store";
 import { AsyncStatus } from "./types";
 
+type ProductFromAPI = {
+  id: number;
+  title: string;
+  price: number;
+  image: string;
+
+  // omit because they are currently not used
+  // description: string,
+  // category: string,
+  // rating
+};
+
 type ProductFromCart = {
   productId: number;
   quantity: number;
 };
+
 export type Product = {
   image: string;
   title: string;
@@ -13,6 +26,17 @@ export type Product = {
   id: number;
   quantity: number;
 };
+
+type CartUnprocessed = {
+  id: number;
+  userId: number;
+  products: ProductFromCart[];
+};
+
+type Cart = Omit<CartUnprocessed, "products"> & {
+  products: Product[];
+};
+
 type User = {
   id: number;
   username: string;
@@ -27,14 +51,6 @@ type User = {
   // address
   // phone
 };
-type CartUnprocessed = {
-  id: number;
-  userId: number;
-  products: ProductFromCart[];
-};
-type Cart = Omit<CartUnprocessed, "products"> & {
-  products: Product[];
-};
 
 export interface ShoppingCartState {
   status: AsyncStatus;
@@ -46,18 +62,6 @@ const initialState: ShoppingCartState = {
   status: AsyncStatus.IDLE,
   carts: null,
   currentCartID: null,
-};
-
-type ProductFromAPI = {
-  id: number;
-  title: string;
-  price: number;
-  image: string;
-
-  // omit because they are currently not used
-  // description: string,
-  // category: string,
-  // rating
 };
 
 async function getProduct(
@@ -96,16 +100,6 @@ export const getCurrentUserShoppingCarts = createAsyncThunk(
     return carts;
   }
 );
-
-export const selectCarts = (state: RootState) => state.shoppingCart.carts;
-
-export const selectHasCurrentCart = (state: RootState) =>
-  !!state.shoppingCart.currentCartID;
-
-export const selectCurrentCart = (state: RootState) =>
-  state.shoppingCart.carts.find(
-    (cart) => cart.id === state.shoppingCart.currentCartID
-  );
 
 const getCurrentCart = (state: ShoppingCartState) =>
   state.carts.find((cart) => cart.id === state.currentCartID);
@@ -162,5 +156,15 @@ export const shoppingCartSlice = createSlice({
 
 export const { setCart, upsertProduct, removeProduct } =
   shoppingCartSlice.actions;
+
+export const selectCarts = (state: RootState) => state.shoppingCart.carts;
+
+export const selectHasCurrentCart = (state: RootState) =>
+  !!state.shoppingCart.currentCartID;
+
+export const selectCurrentCart = (state: RootState) =>
+  state.shoppingCart.carts.find(
+    (cart) => cart.id === state.shoppingCart.currentCartID
+  );
 
 export default shoppingCartSlice.reducer;
