@@ -4,8 +4,8 @@ import { AsyncStatus } from "./types";
 
 /**
  * I deceded to use `createAsyncThunk`
- * to have a more Redux lib conventional way
- * of handling loading and error states
+ *  to have a more Redux lib conventional way
+ *  of handling loading and error states
  */
 export const login = createAsyncThunk(
   "app/login",
