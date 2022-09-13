@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "store";
+import { useAppDispatch } from "store/hooks";
+import { getCurrentUserShoppingCarts } from "./shoppingCart";
 import { AsyncStatus } from "./types";
 
 /**
@@ -21,21 +23,24 @@ export const login = createAsyncThunk(
         username: username,
         password: password,
       }),
-    });
+    }).then((response) => response.json());
 
     // This value becomes `fulfilled` action payload
-    return response.json();
+    return [username, response.token];
   }
 );
 
 export const selectIsLoggedIn = (state: RootState) =>
   state.app.login.token !== "";
 
+export const selectUsername = (state: RootState) => state.app.login.username;
+
 export const appSlice = createSlice({
   name: "app",
   initialState: {
     categories: [],
     login: {
+      username: "",
       token: "",
       status: AsyncStatus.IDLE,
     },
@@ -58,8 +63,10 @@ export const appSlice = createSlice({
         state.login.status = AsyncStatus.LOADING;
       })
       .addCase(login.fulfilled, (state, action) => {
+        const [username, token] = action.payload;
         state.login.status = AsyncStatus.IDLE;
-        state.login.token = action.payload.token;
+        state.login.username = username;
+        state.login.token = token;
       })
       .addCase(login.rejected, (state) => {
         state.login.status = AsyncStatus.FAILED;
