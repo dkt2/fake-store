@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { login, selectIsLoggedIn, signOut } from "store/slices/app";
 import classes from "./signin.module.css";
-import Input from "components/Input";
 import { useAppDispatch, useAppSelector } from "store/hooks";
+import Input, { InputType } from "@/components/Input/Input";
+import { getCurrentUserShoppingCarts } from "store/slices/shoppingCart";
 
 function LoggedOut() {
   const dispatch = useAppDispatch();
@@ -10,20 +11,25 @@ function LoggedOut() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  function onSubmit(e) {
+  async function onSubmit(e) {
     e.preventDefault();
-    dispatch(login({ username, password }));
+    await dispatch(login({ username, password }));
+    await dispatch(getCurrentUserShoppingCarts({ username }));
   }
 
   return (
     <form>
       <label>
         Username
-        <Input type={"text"} value={username} setValue={setUsername} />
+        <Input type={InputType.TEXT} value={username} setValue={setUsername} />
       </label>
       <label>
         Password
-        <Input type={"password"} value={password} setValue={setPassword} />
+        <Input
+          type={InputType.PASSWORD}
+          value={password}
+          setValue={setPassword}
+        />
       </label>
       <button type={"submit"} onClick={(e) => onSubmit(e)}>
         Sign In
@@ -43,7 +49,9 @@ function LoggedIn() {
 }
 
 export default function SignIn() {
+  const dispatch = useAppDispatch();
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
+
   return (
     <div className={classes.signIn}>
       {isLoggedIn ? <LoggedIn /> : <LoggedOut />}
