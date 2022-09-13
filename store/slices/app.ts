@@ -1,7 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "store";
-import { useAppDispatch } from "store/hooks";
-import { getCurrentUserShoppingCarts } from "./shoppingCart";
 import { AsyncStatus } from "./types";
 
 /**
