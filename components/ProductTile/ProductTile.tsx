@@ -21,7 +21,7 @@ function ProductTile(props: ProductTileProps) {
         <source srcSet={product.image} type={"image/webp"} />
         <img src={product.image} alt={"Product Photo"} />
       </picture>
-      <div className={classes.productTitle}>{product?.title}</div>
+      <div className={classes.productTitle}>{product.title}</div>
       <div className={classes.productPrice}>
         {isLoggedIn || product.price < 500
           ? formatPrice(product.price)
