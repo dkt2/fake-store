@@ -1,0 +1,8 @@
+.ShoppingCart {
+  display: flex;
+  margin-top: 0.5rem;
+}
+
+.ShoppingCart :first-child {
+  width: 3rem;
+}
