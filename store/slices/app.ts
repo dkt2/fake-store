@@ -15,7 +15,15 @@ export const getAndSetCategories = () => (dispatch) => {
  */
 export const login = createAsyncThunk(
   "app/login",
-  async (payload: { username: string; password: string }) => {
+  async (payload: {
+    username: string;
+    password: string;
+  }): Promise<
+    [
+      string, // username
+      string // token
+    ]
+  > => {
     const { username, password } = payload;
 
     const response = await fetch("https://fakestoreapi.com/auth/login", {
