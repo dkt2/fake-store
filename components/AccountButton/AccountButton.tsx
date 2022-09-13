@@ -9,15 +9,15 @@ function AccountButton() {
   const dispatch = useDispatch();
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
-  function onClick() {
-    dispatch(signOut());
-  }
-
   return (
     <Link href="/signin">
       <div className={classes.signIn}>
         <User />{" "}
-        {isLoggedIn ? <button onClick={onClick}>Sign out</button> : "Sign In"}
+        {isLoggedIn ? (
+          <button onClick={() => dispatch(signOut())}>Sign out</button>
+        ) : (
+          "Sign In"
+        )}
       </div>
     </Link>
   );
